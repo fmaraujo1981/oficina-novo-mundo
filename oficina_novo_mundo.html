@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vamos Habitar um Novo Mundo! - Oficina de Gamificação</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #2d1b69 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 50px 0;
+            color: white;
+        }
+
+        .main-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #00ffff;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00ffff; }
+            to { text-shadow: 0 0 30px #00ffff, 0 0 40px #00ffff; }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        /* Elements Grid */
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .element-card {
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .element-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .agua { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .ar { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+        .fogo { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .terra { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+
+        .element-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .element-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Station Details */
+        .station-detail {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .challenge-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-container {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quiz-options li {
+            background: white;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .quiz-options li:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .crossword {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #667eea;
+        }
+
+        .hint-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .hint-box::before {
+            content: "💡 DICA: ";
+            font-weight: bold;
+            color: #856404;
+        }
+
+        .code-reveal {
+            background: #d4edda;
+            border: 2px solid #27ae60;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .seed-system {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .timeline {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .timeline-time {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 20px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .reference-link {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .reference-link a {
+            color: #f1c40f;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid #f1c40f;
+        }
+
+        .reference-link a:hover {
+            color: white;
+            border-bottom-color: white;
+        }
+
+        .feedback-section {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(231, 76, 60, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(231, 76, 60, 0.8); }
+        }
+
+        .feedback-section a {
+            color: #f1c40f;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid #f1c40f;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .feedback-section a:hover {
+            background: #f1c40f;
+            color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        .credits {
+            background: rgba(0,0,0,0.8);
+            color: #bdc3c7;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .credits a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .visual-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .floating-element:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { left: 30%; animation-delay: 5s; }
+        .floating-element:nth-child(3) { left: 50%; animation-delay: 10s; }
+        .floating-element:nth-child(4) { left: 70%; animation-delay: 15s; }
+        .floating-element:nth-child(5) { left: 90%; animation-delay: 2s; }
+
+        .creator-info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: #bdc3c7;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            z-index: 1001;
+            backdrop-filter: blur(5px);
+        }
+
+        .creator-info a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .social-share {
+            background: linear-gradient(135deg, #e1306c, #fd1d1d);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .share-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            margin: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .share-button:hover {
+            background: white;
+            color: #e1306c;
+        }
+
+        .instagram-feed {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .elements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .creator-info {
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+                font-size: 0.7rem;
+                padding: 8px 12px;
+            }
+            
+            .floating-element {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Elementos visuais flutuantes -->
+    <div class="visual-elements">
+        <div class="floating-element">🌱</div>
+        <div class="floating-element">🎮</div>
+        <div class="floating-element">🚀</div>
+        <div class="floating-element">⚡</div>
+        <div class="floating-element">🌟</div>
+    </div>
+
+    <!-- Informações do Criador -->
+    <div class="creator-info">
+        Por <a href="https://www.linkedin.com/in/fabiano-araujo-62a7671b/" target="_blank">Fabiano Araújo</a> | <a href="https://hacktown.com.br/" target="_blank">HackTown</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">🌍 VAMOS HABITAR UM NOVO MUNDO!</h1>
+            <p class="subtitle">💥 O mundo antigo colapsou</p>
+            <p style="color: #00ffff; font-size: 1.2rem;">Oficina de Gamificação Educacional - 2 horas</p>
+            
+
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('overview')">📋 Visão Geral</button>
+            <button class="nav-tab" onclick="showSection('etapa1')">🚀 Etapa 1</button>
+            <button class="nav-tab" onclick="showSection('etapa2')">🎮 Etapa 2</button>
+            <button class="nav-tab" onclick="showSection('etapa3')">🛠️ Etapa 3</button>
+            <button class="nav-tab" onclick="showSection('etapa4')">🏆 Etapa 4</button>
+            <button class="nav-tab" onclick="showSection('materiais')">📦 Materiais</button>
+            <button class="nav-tab" onclick="showSection('feedback')">💬 Feedback</button>
+            <button class="nav-tab" onclick="showSection('social')">📱 Social</button>
+        </div>
+
+        <!-- Visão Geral -->
+        <div id="overview" class="section active">
+            <h2 class="section-title">📋 Visão Geral da Oficina</h2>
+            
+            <div class="timeline">
+                <h3>⏰ Cronograma (2 horas)</h3>
+                <div class="timeline-item">
+                    <div class="timeline-time">0-20min</div>
+                    <div><strong>Etapa 1:</strong> Boas-vindas e formação das equipes elementais</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">20-80min</div>
+                    <div><strong>Etapa 2:</strong> Rotação por estações - Descobrindo os códigos</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">80-110min</div>
+                    <div><strong>Etapa 3:</strong> Criação dos artefatos para o novo mundo</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">110-120min</div>
+                    <div><strong>Etapa 4:</strong> Apresentações e plantio das sementes do futuro</div>
+                </div>
+            </div>
+
+            <div class="seed-system">
+                <h3>🌱 Sistema de Sementes (Badges)</h3>
+                <div class="elements-grid">
+                    <div class="element-card agua">
+                        <span class="element-icon">💧</span>
+                        <div class="element-title">ÁGUA</div>
+                        <p>Sementes de Legumes</p>
+                        <small>Fluidez, Adaptabilidade, Nutrição</small>
+                    </div>
+                    <div class="element-card ar">
+                        <span class="element-icon">💨</span>
+                        <div class="element-title">AR</div>
+                        <p>Sementes de Verduras</p>
+                        <small>Leveza, Inspiração, Crescimento</small>
+                    </div>
+                    <div class="element-card fogo">
+                        <span class="element-icon">🔥</span>
+                        <div class="element-title">FOGO</div>
+                        <p>Sementes de Flores</p>
+                        <small>Paixão, Energia, Beleza</small>
+                    </div>
+                    <div class="element-card terra">
+                        <span class="element-icon">🌍</span>
+                        <div class="element-title">TERRA</div>
+                        <p>Sementes de Frutas</p>
+                        <small>Estabilidade, Sustento, Doçura</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reference-link">
+                <h3>📚 Material de Apoio</h3>
+                <p>Durante a Etapa 2, consulte o material complementar:</p>
+                <a href="https://ash-fountain-c03.notion.site/Explorando-T-cnicas-de-Jogos-e-Simula-o-na-Educa-o-Profissional-para-os-Segmentos-de-Sa-de-Turism-84e21932e53640668f915307a187ba5f" target="_blank">
+                    🔗 Explorando Técnicas de Jogos e Simulação na Educação
+                </a>
+            </div>
+        </div>
+
+        <!-- Etapa 1 -->
+        <div id="etapa1" class="section">
+            <h2 class="section-title">🚀 ETAPA 1: O DESPERTAR DOS ELEMENTOS</h2>
+            <p><strong>Duração:</strong> 20 minutos</p>
+
+            <div class="challenge-box">
+                <h3>🌟 Narrativa de Abertura</h3>
+                <p><em>"Habitantes do mundo antigo, vocês foram escolhidos para uma missão épica! O mundo como conhecíamos colapsou, mas das cinzas surge uma oportunidade única: construir um novo mundo baseado na educação transformadora. Vocês são os Arquitetos da Nova Era Educacional!"</em></p>
+            </div>
+
+            <div class="station-detail">
+                <h3>🎯 Dinâmica de Formação das Equipes</h3>
+                <ol>
+                    <li><strong>Ritual de Invocação (5min):</strong> Cada participante escolhe uma carta com símbolo elemental aleatório</li>
+                    <li><strong>Encontro dos Elementos (5min):</strong> Participantes se agrupam por elemento escolhido</li>
+                    <li><strong>Escolha do Guardião (5min):</strong> Cada grupo escolhe seu líder/guardião através de "Pedra, Papel, Tesoura" em eliminatórias</li>
+                    <li><strong>Juramento Elemental (5min):</strong> Cada grupo cria um grito de guerra relacionado ao seu elemento</li>
+                </ol>
+            </div>
+
+            <div class="hint-box">
+                O Guardião de cada elemento receberá um kit especial de sementes e será responsável por distribuí-las durante toda a jornada. Ele permanece sempre em sua estação base durante as rotações.
+            </div>
+
+            <div class="elements-grid">
+                <div class="element-card agua">
+                    <span class="element-icon">💧</span>
+                    <div class="element-title">GUARDIÕES DA ÁGUA</div>
+                    <p><strong>Missão:</strong> Nutrir o crescimento através da fluidez e adaptabilidade</p>
+                    <p><strong>Poder:</strong> Sementes de Legumes (cenoura, beterraba, rabanete)</p>
+                </div>
+                <div class="element-card ar">
+                    <span class="element-icon">💨</span>
+                    <div class="element-title">GUARDIÕES DO AR</div>
+                    <p><strong>Missão:</strong> Inspirar através da leveza e criatividade</p>
+                    <p><strong>Poder:</strong> Sementes de Verduras (alface, rúcula, espinafre)</p>
+                </div>
+                <div class="element-card fogo">
+                    <span class="element-icon">🔥</span>
+                    <div class="element-title">GUARDIÕES DO FOGO</div>
+                    <p><strong>Missão:</strong> Energizar através da paixão e determinação</p>
+                    <p><strong>Poder:</strong> Sementes de Flores (girassol, cosmos, zinnia)</p>
+                </div>
+                <div class="element-card terra">
+                    <span class="element-icon">🌍</span>
+                    <div class="element-title">GUARDIÕES DA TERRA</div>
+                    <p><strong>Missão:</strong> Sustentar através da estabilidade e abundância</p>
+                    <p><strong>Poder:</strong> Sementes de Frutas (tomate cereja, morango, pimentão)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 2 -->
+        <div id="etapa2" class="section">
+            <h2 class="section-title">🎮 ETAPA 2: AS ESTAÇÕES ELEMENTAIS</h2>
+            <p><strong>Duração:</strong> 60 minutos (4 rotações de 15 minutos cada)</p>
+
+            <div class="challenge-box">
+                <h3>⚡ Mecânica de Rotação</h3>
+                <ul>
+                    <li><strong>Tempo por estação:</strong> 15 minutos</li>
+                    <li><strong>Mudança de participantes:</strong> A cada 2 minutos, sortear quem sai via "Zerinho ou Cinco"</li>
+                    <li><strong>Guardião permanece:</strong> O líder nunca sai de sua estação</li>
+                    <li><strong>Distribuição de sementes:</strong> Guardião dá 1 semente para quem mais contribuiu + 1 semente sorteada</li>
+                </ul>
+            </div>
+
+            <!-- Estação Água -->
+            <div class="station-detail">
+                <h3>💧 ESTAÇÃO ÁGUA: Mecânicas de Jogos</h3>
+                
+                <div class="quiz-container">
+                    <h4>🎯 Desafio 1: Quiz das Mecânicas (0-5min)</h4>
+                    <div class="quiz-question">Qual elemento NÃO é uma mecânica básica de jogos?</div>
+                    <ul class="quiz-options">
+                        <li>A) Pontos</li>
+                        <li>B) Regras</li>
+                        <li>C) Cor azul</li>
+                        <li>D) Feedback</li>
+                    </ul>
+                    <div class="hint-box">Pense no que realmente faz um jogo funcionar, não em elementos visuais.</div>
+                </div>
+
+                <div class="crossword">
+                    <h4>🧩 Desafio 2: Palavras Cruzadas Gamificadas (5-10min)</h4>
+                    <p><strong>Horizontal:</strong></p>
+                    <p>1. Sistema que mostra progresso numérico (6 letras)</p>
+                    <p>3. Reconhecimento visual de conquista (5 letras)</p>
+                    <p><strong>Vertical:</strong></p>
+                    <p>2. Resposta imediata à ação do jogador (8 letras)</p>
+                    <p>4. Conjunto de instruções do jogo (6 letras)</p>
+                    <div class="hint-box">Respostas: PONTOS, BADGE, FEEDBACK, REGRAS</div>
+                </div>
+
+                <div class="challenge-box">
+                    <h4>💡 Desafio 3: Construção de Mecânica (10-15min)</h4>
+                    <p>Criem uma mecânica de pontuação para ensinar matemática básica. Definam:</p>
+                    <ul>
+                        <li>Como ganhar pontos</li>
+                        <li>Como perder pontos</li>
+                        <li>Qual o objetivo final</li>
+                    </ul>
+                </div>
+
+                <div class="code-reveal">
+                    🔓 CÓDIGO ÁGUA DESCOBERTO: "FLUXO"
+                </div>
+            </div>
+
+            <!-- Estação Ar -->
+            <div class="station-detail">
+                <h3>💨 ESTAÇÃO AR: Storytelling</h3>
+                
+                <div class="quiz-container">
+                    <h4>📚 Desafio 1: Elementos da Narrativa (0-5min)</h4>
+                    <div class="quiz-question">Qual é a sequência correta de uma história?</div>
+                    <ul class="quiz-options">
+                        <li>A) Conflito → Apresentação → Resolução</li>
+                        <li>B) Apresentação → Conflito → Resolução</li>
+                        <li>C) Resolução → Conflito → Apresentação</li>
+                        <li>D) Conflito → Resolução → Apresentação</li>
+                    </ul>
+                    <div class="hint-box">Pense na estrutura clássica: início, meio e fim.</div>
+                </div>
+
+                <div class="challenge-box">
+                    <h4>🎭 Desafio 2: História em 1 Minuto (5-10min)</h4>
+                    <p>Criem uma história educativa sobre "A Jornada do Conhecimento" com:</p>
+                    <ul>
+                        <li>Herói: Um estudante</li>
+                        <li>Conflito: Dificuldade de aprender</li>
+                        <li>Mentor: Um professor gamificador</li>
+                        <li>Resolução: Transformação através do jogo</li>
+                    </ul>
+                </div>
+
+                <div class="challenge-box">
+                    <h4>🎪 Desafio 3: Narrativa Interativa (10-15min)</h4>
+                    <p>Transformem a história criada em uma experiência interativa onde o público pode escolher o rumo da narrativa. Definam 3 pontos de decisão.</p>
+                </div>
+
+                <div class="code-reveal">
+                    🔓 CÓDIGO AR DESCOBERTO: "NARRATIVA"
+                </div>
+            </div>
+
+            <!-- Estação Fogo -->
+            <div class="station-detail">
+                <h3>🔥 ESTAÇÃO FOGO: Tipos de Jogos</h3>
+                
+                <div class="quiz-container">
+                    <h4>🎮 Desafio 1: Classificação de Jogos (0-5min)</h4>
+                    <div class="quiz-question">Xadrez é um exemplo de que tipo de jogo?</div>
+                    <ul class="quiz-options">
+                        <li>A) Jogo de sorte</li>
+                        <li>B) Jogo de estratégia</li>
+                        <li>C) Jogo de ação</li>
+                        <li>D) Jogo de simulação</li>
+                    </ul>
+                    <div class="hint-box">Pense no que é mais importante para vencer no xadrez.</div>
+                </div>
+
+                <div class="challenge-box">
+                    <h4>🎯 Desafio 2: Jogo da Memória Educativo (5-10min)</h4>
+                    <p>Criem cartas de memória sobre "Elementos de Gamificação":</p>
+                    <ul>
+                        <li>8 pares de cartas</li>
+                        <li>Cada par: Conceito + Definição</li>
+                        <li>Exemplo: "Pontos" + "Sistema de feedback numérico"</li>
+                    </ul>
+                </div>
+
+                <div class="challenge-box">
+                    <h4>🏆 Desafio 3: Torneio Relâmpago (10-15min)</h4>
+                    <p>Organizem um mini-torneio do jogo criado. Definam:</p>
+                    <ul>
+                        <li>Regras claras</li>
+                        <li>Sistema de eliminação</li>
+                        <li>Premiação simbólica</li>
+                    </ul>
+                </div>
+
+                <div class="code-reveal">
+                    🔓 CÓDIGO FOGO DESCOBERTO: "ENERGIA"
+                </div>
+            </div>
+
+            <!-- Estação Terra -->
+            <div class="station-detail">
+                <h3>🌍 ESTAÇÃO TERRA: Teoria do Flow</h3>
+                
+                <div class="quiz-container">
+                    <h4>🌊 Desafio 1: Conceitos do Flow (0-5min)</h4>
+                    <div class="quiz-question">O estado de Flow ocorre quando:</div>
+                    <ul class="quiz-options">
+                        <li>A) A tarefa é muito fácil</li>
+                        <li>B) A tarefa é muito difícil</li>
+                        <li>C) Há equilíbrio entre desafio e habilidade</li>
+                        <li>D) Não há regras definidas</li>
+                    </ul>
+                    <div class="hint-box">Flow = zona de conforto desafiador.</div>
+                </div>
+
+                <div class="challenge-box">
+                    <h4>⚖️ Desafio 2: Balanceamento de Atividade (5-10min)</h4>
+                    <p>Peguem uma atividade educativa tradicional e a modifiquem para gerar Flow:</p>
+                    <ul>
+                        <li>Identifiquem o nível de dificuldade atual</li>
+                        <li>Ajustem para diferentes níveis de habilidade</li>
+                        <li>Adicionem feedback imediato</li>
+                        <li>Definam objetivos claros</li>
+                    </ul>
+                </div>
+
+                <div class="challenge-box">
+                    <h4>🎯 Desafio 3: Teste de Flow (10-15min)</h4>
+                    <p>Testem a atividade modificada com o grupo. Avaliem:</p>
+                    <ul>
+                        <li>Nível de concentração</li>
+                        <li>Percepção do tempo</li>
+                        <li>Sensação de controle</li>
+                        <li>Motivação intrínseca</li>
+                    </ul>
+                </div>
+
+                <div class="code-reveal">
+                    🔓 CÓDIGO TERRA DESCOBERTO: "EQUILÍBRIO"
+                </div>
+            </div>
+
+            <div class="hint-box">
+                <strong>Dinâmica "Zerinho ou Cinco":</strong> Dois participantes mostram simultaneamente 0 ou 5 dedos. Se a soma for par, ganha quem escolheu "par". Se for ímpar, ganha quem escolheu "ímpar". Quem perde sai da estação.
+            </div>
+        </div>
+
+        <!-- Etapa 3 -->
+        <div id="etapa3" class="section">
+            <h2 class="section-title">🛠️ ETAPA 3: FORJANDO O FUTURO</h2>
+            <p><strong>Duração:</strong> 30 minutos</p>
+
+            <div class="challenge-box">
+                <h3>🔑 Códigos Descobertos</h3>
+                <p>Com os códigos <strong>FLUXO + NARRATIVA + ENERGIA + EQUILÍBRIO</strong>, cada equipe desbloqueia seu desafio específico para criar um artefato educacional para o novo mundo.</p>
+            </div>
+
+            <div class="elements-grid">
+                <div class="element-card agua">
+                    <span class="element-icon">💧</span>
+                    <div class="element-title">DESAFIO ÁGUA</div>
+                    <p><strong>Questão:</strong> Como deve ser a nova pedagogia?</p>
+                    <p><strong>Artefato:</strong> Criar um método de ensino fluido e adaptável</p>
+                    <p><strong>Entregável:</strong> Sequência didática gamificada</p>
+                </div>
+                <div class="element-card ar">
+                    <span class="element-icon">💨</span>
+                    <div class="element-title">DESAFIO AR</div>
+                    <p><strong>Questão:</strong> O que deve ser aprendido/ensinado?</p>
+                    <p><strong>Artefato:</strong> Definir competências essenciais do futuro</p>
+                    <p><strong>Entregável:</strong> Mapa mental interativo ou jogo</p>
+                </div>
+                <div class="element-card fogo">
+                    <span class="element-icon">🔥</span>
+                    <div class="element-title">DESAFIO FOGO</div>
+                    <p><strong>Questão:</strong> Como avaliar ou medir o conhecimento?</p>
+                    <p><strong>Artefato:</strong> Sistema de avaliação energizante</p>
+                    <p><strong>Entregável:</strong> Protótipo de avaliação gamificada</p>
+                </div>
+                <div class="element-card terra">
+                    <span class="element-icon">🌍</span>
+                    <div class="element-title">DESAFIO TERRA</div>
+                    <p><strong>Questão:</strong> O que levamos do mundo antigo?</p>
+                    <p><strong>Artefato:</strong> Ponte entre tradição e inovação</p>
+                    <p><strong>Entregável:</strong> Manifesto ou vídeo inspiracional</p>
+                </div>
+            </div>
+
+            <div class="station-detail">
+                <h3>🎯 Orientações para Criação</h3>
+                <ol>
+                    <li><strong>Brainstorming (5min):</strong> Gerem ideias livremente</li>
+                    <li><strong>Seleção (5min):</strong> Escolham a melhor ideia por votação</li>
+                    <li><strong>Prototipagem (15min):</strong> Criem o artefato usando materiais disponíveis</li>
+                    <li><strong>Preparação da apresentação (5min):</strong> Definam quem apresenta e como</li>
+                </ol>
+            </div>
+
+            <div class="hint-box">
+                Lembrem-se: o artefato deve ser algo que realmente ajude os "novos habitantes" (estudantes) a se relacionarem melhor com a educação. Pensem em soluções práticas e aplicáveis!
+            </div>
+        </div>
+
+        <!-- Etapa 4 -->
+        <div id="etapa4" class="section">
+            <h2 class="section-title">🏆 ETAPA 4: O PLANTIO DAS SEMENTES</h2>
+            <p><strong>Duração:</strong> 10 minutos</p>
+
+            <div class="challenge-box">
+                <h3>🎪 Apresentações dos Artefatos</h3>
+                <ul>
+                    <li><strong>Tempo por grupo:</strong> 2 minutos</li>
+                    <li><strong>Formato:</strong> Pitch rápido + demonstração</li>
+                    <li><strong>Foco:</strong> Como o artefato transforma a educação</li>
+                </ul>
+            </div>
+
+            <div class="station-detail">
+                <h3>🌱 Ritual de Encerramento: "As Sementes do Futuro"</h3>
+                <ol>
+                    <li><strong>Apresentações (8min):</strong> Cada grupo apresenta seu artefato</li>
+                    <li><strong>Plantio Simbólico (1min):</strong> Todos mostram suas sementes conquistadas</li>
+                    <li><strong>Declaração Final (1min):</strong> "O jogo foi vivido, mas não acabou - é apenas o início!"</li>
+                </ol>
+            </div>
+
+            <div class="challenge-box">
+                <h3>🚀 Missão Pós-Oficina</h3>
+                <p><strong>Provocação Final:</strong> "Vocês agora são portadores das sementes do futuro educacional. Sua missão é plantá-las em seus contextos e fazer com que cresçam!"</p>
+                
+                <h4>📱 Ações Solicitadas:</h4>
+                <ul>
+                    <li>Compartilhar a experiência nas redes sociais com #NovoMundoEducacional</li>
+                    <li>Implementar pelo menos um elemento aprendido em suas práticas</li>
+                    <li>Avaliar a oficina através do link fornecido</li>
+                    <li>Formar uma rede de apoio entre os participantes</li>
+                </ul>
+            </div>
+
+            <div class="seed-system">
+                <h3>🏅 Sistema de Reconhecimento Final</h3>
+                <p>Cada participante sai com:</p>
+                <ul>
+                    <li>🌱 Sementes físicas conquistadas durante a jornada</li>
+                    <li>📜 Certificado digital de "Arquiteto do Novo Mundo Educacional"</li>
+                    <li>🔗 Acesso ao grupo exclusivo de continuidade</li>
+                    <li>📚 Material complementar para aprofundamento</li>
+                </ul>
+            </div>
+
+            <div class="code-reveal">
+                <h3>🎯 Mensagem Final</h3>
+                <p><em>"Parabéns, Arquitetos! Vocês não apenas habitaram um novo mundo - vocês o criaram. Agora levem essa magia transformadora para onde quer que vão. O futuro da educação está em suas mãos... e em suas sementes!"</em></p>
+            </div>
+
+            <div class="feedback-section">
+                <h3>📝 SUA OPINIÃO É VALIOSA!</h3>
+                <p>Ajude-nos a melhorar esta experiência compartilhando seu feedback:</p>
+                <a href="https://forms.office.com/r/1sqhxesRWk" target="_blank">
+                    🚀 AVALIAR OFICINA
+                </a>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Sua avaliação nos ajuda a criar experiências ainda mais transformadoras!</p>
+            </div>
+        </div>
+
+        <!-- Feedback -->
+        <div id="feedback" class="section">
+            <h2 class="section-title">💬 COMPARTILHE SUA EXPERIÊNCIA</h2>
+            
+            <div class="feedback-section">
+                <h3>🌟 Sua Jornada no Novo Mundo</h3>
+                <p>Você vivenciou uma experiência única de gamificação educacional! Agora queremos saber:</p>
+                <ul style="text-align: left; max-width: 600px; margin: 20px auto;">
+                    <li>Como foi habitar este novo mundo educacional?</li>
+                    <li>Quais elementos mais impactaram sua visão sobre educação?</li>
+                    <li>Que sementes você pretende plantar em sua prática?</li>
+                    <li>Como podemos melhorar esta experiência?</li>
+                </ul>
+                
+                <a href="https://forms.office.com/r/1sqhxesRWk" target="_blank">
+                    📝 AVALIAR OFICINA COMPLETA
+                </a>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <h4>📱 Compartilhe nas Redes Sociais</h4>
+                    <p>Use a hashtag <strong>#missaohabitarumnovomundo</strong></p>
+                    <button onclick="shareExperience()" class="share-button">
+                        📷 Compartilhar no Instagram
+                    </button>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Inspire outros educadores a se tornarem arquitetos do futuro!</p>
+                </div>
+            </div>
+            
+            <div class="reference-link">
+                <h3>🔗 Continue Sua Jornada</h3>
+                <p>Acesse materiais complementares e aprofunde seus conhecimentos:</p>
+                <a href="https://ash-fountain-c03.notion.site/Explorando-T-cnicas-de-Jogos-e-Simula-o-na-Educa-o-Profissional-para-os-Segmentos-de-Sa-de-Turism-84e21932e53640668f915307a187ba5f" target="_blank">
+                    📚 Material de Apoio Completo
+                </a>
+            </div>
+        </div>
+
+        <!-- Social -->
+        <div id="social" class="section">
+            <h2 class="section-title">📱 COMPARTILHE SUA JORNADA</h2>
+            
+            <div class="social-share">
+                <h3>🎆 Você Habitou um Novo Mundo!</h3>
+                <p>Compartilhe sua experiência transformadora e inspire outros educadores:</p>
+                
+                <a href="javascript:shareExperience()" class="share-button">
+                    📷 Compartilhar no Instagram
+                </a>
+                
+                <a href="https://www.linkedin.com/in/fabiano-araujo-62a7671b/" target="_blank" class="share-button">
+                    👤 Conectar no LinkedIn
+                </a>
+                
+                <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.9;">
+                    Use <strong>#missaohabitarumnovomundo</strong> e marque seus colegas!
+                </p>
+            </div>
+            
+            <div class="instagram-feed">
+                <h3>🌟 Experiências Compartilhadas</h3>
+                <p>Veja como outros participantes estão habitando o novo mundo educacional:</p>
+                
+                <div style="margin: 20px 0; padding: 20px; background: white; border-radius: 10px; border-left: 4px solid #e1306c;">
+                    <p><strong>📷 Para ver as postagens:</strong></p>
+                    <ol style="text-align: left; max-width: 500px; margin: 0 auto;">
+                        <li>Abra o Instagram</li>
+                        <li>Pesquise por <strong>#missaohabitarumnovomundo</strong></li>
+                        <li>Explore as experiências dos outros participantes</li>
+                        <li>Curta e comente para fortalecer nossa comunidade!</li>
+                    </ol>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h4>🤝 Conecte-se com o Criador</h4>
+                    <p>Quer trocar ideias sobre gamificação educacional?</p>
+                    <a href="https://www.linkedin.com/in/fabiano-araujo-62a7671b/" target="_blank" style="color: #f1c40f; text-decoration: none; font-weight: bold; border-bottom: 2px solid #f1c40f; padding-bottom: 2px;">
+                        🔗 Fabiano Araújo no LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materiais -->
+        <div id="materiais" class="section">
+            <h2 class="section-title">📦 MATERIAIS NECESSÁRIOS</h2>
+
+            <div class="station-detail">
+                <h3>🌱 Kit de Sementes por Elemento</h3>
+                <ul>
+                    <li><strong>Água:</strong> Sementes de cenoura, beterraba, rabanete (20 unidades cada)</li>
+                    <li><strong>Ar:</strong> Sementes de alface, rúcula, espinafre (20 unidades cada)</li>
+                    <li><strong>Fogo:</strong> Sementes de girassol, cosmos, zinnia (20 unidades cada)</li>
+                    <li><strong>Terra:</strong> Sementes de tomate cereja, morango, pimentão (20 unidades cada)</li>
+                </ul>
+            </div>
+
+            <div class="station-detail">
+                <h3>🎯 Materiais por Estação</h3>
+                <ul>
+                    <li><strong>Cartas elementais</strong> para sorteio inicial (40 cartas)</li>
+                    <li><strong>Folhas de atividades</strong> impressas para cada estação</li>
+                    <li><strong>Materiais de criação:</strong> papel, canetas, post-its, cartolinas</li>
+                    <li><strong>Cronômetro</strong> para controle de tempo</li>
+                    <li><strong>Caixas ou recipientes</strong> para organizar sementes</li>
+                    <li><strong>Etiquetas</strong> para identificação das estações</li>
+                </ul>
+            </div>
+
+            <div class="station-detail">
+                <h3>📱 Recursos Digitais</h3>
+                <ul>
+                    <li><strong>QR Code</strong> para acesso ao material complementar</li>
+                    <li><strong>Link de avaliação</strong> da oficina</li>
+                    <li><strong>Grupo WhatsApp</strong> para continuidade</li>
+                    <li><strong>Certificados digitais</strong> personalizados</li>
+                </ul>
+            </div>
+
+            <div class="hint-box">
+                <strong>Dica de Preparação:</strong> Organize as sementes em pequenos envelopes identificados por elemento. Prepare as estações com antecedência, deixando os materiais organizados em cada mesa.
+            </div>
+
+            <div class="credits">
+                <h3>🏗️ Créditos e Tecnologia</h3>
+                <p><strong>Criador da Oficina:</strong> Fabiano Araújo</p>
+                <p><strong>Evento:</strong> <a href="https://hacktown.com.br/" target="_blank">HackTown</a></p>
+                <p><strong>Sistema desenvolvido com:</strong> <a href="https://aws.amazon.com/q/" target="_blank">Amazon Q</a> - AI Assistant</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">Este guia foi construído utilizando inteligência artificial para otimizar a experiência de aprendizagem gamificada.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Add click handlers to quiz options
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.quiz-options li').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove previous selections
+                    this.parentNode.querySelectorAll('li').forEach(li => {
+                        li.style.backgroundColor = '';
+                        li.style.color = '';
+                    });
+                    
+                    // Highlight selected option
+                    this.style.backgroundColor = '#667eea';
+                    this.style.color = 'white';
+                });
+            });
+        });
+        
+        // Share experience function
+        function shareExperience() {
+            const text = "Acabei de habitar um novo mundo educacional! 🌍🎆 Uma experiência incrível de gamificação na educação. #missaohabitarumnovomundo #gamificacao #educacao #hacktown";
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Missão: Habitar um Novo Mundo',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback para Instagram Web
+                const instagramUrl = `https://www.instagram.com/`;
+                window.open(instagramUrl, '_blank');
+                
+                // Copiar texto para clipboard
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('📷 Texto copiado! Cole no Instagram e adicione sua foto da experiência!');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

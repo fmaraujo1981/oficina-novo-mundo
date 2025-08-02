@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Descobrir Palavras - Versão Melhorada</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .game-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 700px;
+            width: 90%;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        
+        .word-display {
+            font-size: 3em;
+            letter-spacing: 15px;
+            margin: 40px 0;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .input-section {
+            margin: 30px 0;
+        }
+        
+        input {
+            padding: 15px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 10px;
+            text-align: center;
+            width: 80px;
+            margin: 0 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-weight: bold;
+        }
+        
+        input:focus {
+            outline: 3px solid #4CAF50;
+            transform: scale(1.1);
+            transition: all 0.3s ease;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hint {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            font-size: 1.3em;
+            border-left: 5px solid #ffeb3b;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message {
+            font-size: 1.4em;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            animation: pulse 0.5s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .success {
+            background: rgba(76, 175, 80, 0.3);
+            color: #c8e6c9;
+        }
+        
+        .error {
+            background: rgba(244, 67, 54, 0.3);
+            color: #ffcdd2;
+        }
+        
+        .used-letters {
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+        
+        .letter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        
+        .letter-used {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .category {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #4CAF50;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎯 Descobrir Palavras</h1>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div>Pontos: <span id="score">0</span></div>
+            </div>
+            <div class="stat-item">
+                <div>Nível: <span id="level">1</span></div>
+            </div>
+            <div class="stat-item">
+                <div>Erros: <span id="errors">0</span>/6</div>
+            </div>
+        </div>
+        
+        <div class="category" id="category"></div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+        
+        <div class="word-display" id="wordDisplay">Clique em "Nova Palavra" para começar!</div>
+        
+        <div class="input-section">
+            <input type="text" id="letterInput" maxlength="1" placeholder="?">
+            <button class="btn-primary" onclick="guessLetter()">Tentar</button>
+            <button class="btn-secondary" onclick="newGame()">Nova Palavra</button>
+            <button class="btn-danger" onclick="giveUp()">Desistir</button>
+        </div>
+        
+        <div class="hint" id="hint">💡 Dica: Clique em "Nova Palavra" para começar sua aventura!</div>
+        
+        <div class="used-letters">
+            <div>Letras usadas:</div>
+            <div class="letter-grid" id="usedLetters"></div>
+        </div>
+        
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const wordCategories = {
+            "Tecnologia": [
+                { word: "JAVASCRIPT", hints: ["Linguagem de programação web", "Roda no navegador", "Criada pela Netscape em 1995", "Muito usada em sites interativos", "Não é Java!"] },
+                { word: "COMPUTADOR", hints: ["Máquina eletrônica", "Processa dados rapidamente", "Tem CPU, memória e armazenamento", "Usado para trabalho e entretenimento", "Pode ser desktop ou laptop"] },
+                { word: "INTERNET", hints: ["Rede mundial de computadores", "Conecta pessoas globalmente", "Permite navegar e comunicar", "Tem sites, emails e redes sociais", "Revolucionou a comunicação"] },
+                { word: "ALGORITMO", hints: ["Sequência lógica de passos", "Resolve problemas específicos", "Base da programação", "Tem início, meio e fim", "Como uma receita de bolo"] }
+            ],
+            "Animais": [
+                { word: "ELEFANTE", hints: ["Maior mamífero terrestre", "Tem uma tromba longa", "Vive na África e Ásia", "Nunca esquece", "Tem presas de marfim"] },
+                { word: "GOLFINHO", hints: ["Mamífero aquático inteligente", "Usa ecolocalização", "Vive em grupos chamados pods", "Muito amigável com humanos", "Respira ar pelos pulmões"] },
+                { word: "BORBOLETA", hints: ["Inseto com asas coloridas", "Passa por metamorfose", "Começa como lagarta", "Poliniza flores", "Símbolo de transformação"] },
+                { word: "CANGURU", hints: ["Marsupial que pula", "Carrega filhotes na bolsa", "Vive na Austrália", "Tem cauda forte para equilíbrio", "Símbolo nacional australiano"] }
+            ],
+            "Países": [
+                { word: "BRASIL", hints: ["Maior país da América do Sul", "Fala português", "Famoso pelo futebol", "Tem a floresta amazônica", "Capital é Brasília"] },
+                { word: "JAPAO", hints: ["País insular na Ásia", "Terra do sol nascente", "Famoso por tecnologia", "Cultura milenar", "Capital é Tóquio"] },
+                { word: "FRANCA", hints: ["País europeu", "Famoso pela Torre Eiffel", "Língua francesa", "Conhecido pela culinária", "Capital é Paris"] },
+                { word: "EGITO", hints: ["País africano", "Tem as pirâmides", "Rio Nilo passa por ele", "Civilização milenar", "Capital é Cairo"] }
+            ]
+        };
+        
+        let currentCategory = "";
+        let currentWord = "";
+        let guessedWord = [];
+        let currentHints = [];
+        let errors = 0;
+        let hintIndex = 0;
+        let gameWon = false;
+        let usedLetters = [];
+        let score = 0;
+        let level = 1;
+        
+        function getRandomCategory() {
+            const categories = Object.keys(wordCategories);
+            return categories[Math.floor(Math.random() * categories.length)];
+        }
+        
+        function newGame() {
+            currentCategory = getRandomCategory();
+            const categoryWords = wordCategories[currentCategory];
+            const randomIndex = Math.floor(Math.random() * categoryWords.length);
+            
+            currentWord = categoryWords[randomIndex].word;
+            currentHints = categoryWords[randomIndex].hints;
+            guessedWord = Array(currentWord.length).fill("_");
+            errors = 0;
+            hintIndex = 0;
+            gameWon = false;
+            usedLetters = [];
+            
+            updateDisplay();
+            document.getElementById("category").textContent = `📂 Categoria: ${currentCategory}`;
+            document.getElementById("hint").innerHTML = `💡 Dica: ${currentHints[0]}`;
+            document.getElementById("message").textContent = "";
+            document.getElementById("letterInput").value = "";
+            document.getElementById("letterInput").focus();
+            updateProgress();
+        }
+        
+        function updateDisplay() {
+            document.getElementById("wordDisplay").textContent = guessedWord.join(" ");
+            document.getElementById("errors").textContent = errors;
+            document.getElementById("score").textContent = score;
+            document.getElementById("level").textContent = level;
+            
+            const usedLettersDiv = document.getElementById("usedLetters");
+            usedLettersDiv.innerHTML = usedLetters.map(letter => 
+                `<span class="letter-used">${letter}</span>`
+            ).join("");
+        }
+        
+        function updateProgress() {
+            const progress = ((currentWord.length - guessedWord.filter(l => l === "_").length) / currentWord.length) * 100;
+            document.getElementById("progress").style.width = progress + "%";
+        }
+        
+        function guessLetter() {
+            if (gameWon || errors >= 6) return;
+            
+            const input = document.getElementById("letterInput");
+            const letter = input.value.toUpperCase();
+            
+            if (!letter || letter.length !== 1 || !/[A-Z]/.test(letter)) {
+                showMessage("Digite apenas uma letra válida!", "error");
+                return;
+            }
+            
+            if (usedLetters.includes(letter)) {
+                showMessage("Você já tentou esta letra!", "error");
+                return;
+            }
+            
+            input.value = "";
+            usedLetters.push(letter);
+            
+            if (currentWord.includes(letter)) {
+                for (let i = 0; i < currentWord.length; i++) {
+                    if (currentWord[i] === letter) {
+                        guessedWord[i] = letter;
+                    }
+                }
+                
+                const points = currentWord.split(letter).length - 1;
+                score += points * 10 * level;
+                showMessage(`✅ Boa! +${points * 10 * level} pontos`, "success");
+                
+                if (!guessedWord.includes("_")) {
+                    gameWon = true;
+                    score += 100 * level;
+                    level++;
+                    showMessage(`🎉 Parabéns! Palavra descoberta! +${100 * level} pontos de bônus!`, "success");
+                }
+            } else {
+                errors++;
+                if (errors < 6 && hintIndex < currentHints.length - 1) {
+                    hintIndex++;
+                    document.getElementById("hint").innerHTML = `💡 Dica: ${currentHints[hintIndex]}`;
+                }
+                
+                showMessage(`❌ Letra não encontrada! (${6 - errors} tentativas restantes)`, "error");
+                
+                if (errors >= 6) {
+                    showMessage(`😞 Fim de jogo! A palavra era: ${currentWord}`, "error");
+                    score = Math.max(0, score - 50);
+                }
+            }
+            
+            updateDisplay();
+            updateProgress();
+            input.focus();
+        }
+        
+        function giveUp() {
+            if (gameWon || errors >= 6) return;
+            
+            if (confirm("Tem certeza que deseja desistir desta palavra?")) {
+                showMessage(`🏳️ Você desistiu! A palavra era: ${currentWord}`, "error");
+                errors = 6;
+                score = Math.max(0, score - 25);
+                updateDisplay();
+            }
+        }
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById("message");
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            
+            setTimeout(() => {
+                messageDiv.textContent = "";
+                messageDiv.className = "message";
+            }, 3000);
+        }
+        
+        document.getElementById("letterInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                guessLetter();
+            }
+        });
+        
+        // Iniciar o primeiro jogo
+        newGame();
+    </script>
+</body>
+</html>
